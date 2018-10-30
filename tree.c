@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 typedef struct QNode
 {
     void *data;
@@ -137,6 +138,33 @@ void postOrderR(TNode *root)
     printf("%d\t", root->data);
 }
 
+int max(int num1, int num2)
+{
+    return num1 > num2 ? num1 : num2;
+}
+
+int height(TNode *root)
+{
+    int lh, rh, maxH;
+    if (root == NULL)
+    {
+        return 0;
+    }
+    lh = height(root->left);
+    rh = height(root->right);
+    maxH = max(lh, rh);
+    return maxH + 1;
+}
+
+int sumR(TNode *root)
+{
+    if (root == NULL)
+    {
+        return 0;
+    }
+    return root->data + sumR(root->left) + sumR(root->right);
+}
+
 Queue *createNewQueue()
 {
     Queue *q = (Queue *)malloc(sizeof(Queue));
@@ -177,15 +205,21 @@ void levelOrderBTree(TNode *root)
 int main()
 {
     TNode *root = NULL;
+
     insertBTree(&root, 10);
     insertBTree(&root, 20);
+
     insertBTree(&root, 30);
     insertBTree(&root, 40);
     insertBTree(&root, 50);
     insertBTree(&root, 60);
     insertBTree(&root, 70);
-    // LevelOrderBTree(root);
+    printf("%d\t", height(root));
+
+    // printf("%d\t", sumR(root));
+
+    // levelOrderBTree(root);
     // preOrderR(root);
     // inOrderR(root);
-    postOrderR(root);
+    // postOrderR(root);
 }
